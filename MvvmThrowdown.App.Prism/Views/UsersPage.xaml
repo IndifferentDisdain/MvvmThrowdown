@@ -1,0 +1,57 @@
+﻿<mvvm:SessionStateAwarePage
+    x:Class="MvvmThrowdown.App.Prism.Views.UsersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="using:Prism.Windows.Mvvm"
+    xmlns:models="using:MvvmThrowdown.Models"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <mvvm:SessionStateAwarePage.Resources>
+        <DataTemplate x:Key="MasterListViewItemTemplate" x:DataType="models:User">
+            <TextBlock Text="{Binding FullName}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="Detail" x:DataType="models:User">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding Id}"></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding FirstName}"></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding LastName}"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </mvvm:SessionStateAwarePage.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0">Users</TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="1">Details</TextBlock>
+
+        <ListView x:Name="MasterListView"
+                  Grid.Row="1" 
+                  Grid.Column="0"
+                  ItemContainerTransitions="{x:Null}"
+                  ItemTemplate="{StaticResource MasterListViewItemTemplate}"
+                  ItemClick="MasterListView_OnItemClick"
+                  IsItemClickEnabled="True"
+                  ItemsSource="{Binding Path=Users}"></ListView>
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock HorizontalAlignment="Left" Text="{Binding SelectedUser.Id}"></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Text="{Binding SelectedUser.FirstName}"></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Text="{Binding SelectedUser.LastName}"></TextBlock>
+        </StackPanel>
+    </Grid>
+</mvvm:SessionStateAwarePage>
+
